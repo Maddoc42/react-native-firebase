@@ -3,6 +3,7 @@ export default class AdRequest {
     this._props = {
       keywords: [],
       testDevices: [],
+      adConsentGranted: true,
     };
   }
 
@@ -54,5 +55,9 @@ export default class AdRequest {
   tagForChildDirectedTreatment(tagForChildDirectedTreatment: boolean) {
     this._props.tagForChildDirectedTreatment = tagForChildDirectedTreatment;
     return this;
+  }
+
+  setAdConsentGranted(adConsentGranted: boolean) {
+    this._props.adConsentGranted = adConsentGranted;
   }
 }

@@ -1,5 +1,7 @@
 package io.invertase.firebase.admob;
 
+import android.os.Bundle;
+
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
@@ -7,6 +9,7 @@ import com.facebook.react.bridge.WritableMap;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.VideoOptions;
+import com.google.ads.mediation.admob.AdMobAdapter;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -108,6 +111,15 @@ class RNFirebaseAdMobUtils {
 
     for (Object word : keywordsList) {
       requestBuilder.addKeyword((String) word);
+    }
+
+    if (request.hasKey("adConsentGranted")) {
+      boolean adConsentGranted = request.getBoolean("adConsentGranted");
+      if (!adConsentGranted) {
+        Bundle extras = new Bundle();
+        extras.putString("npa", "1");
+        requestBuilder.addNetworkExtrasBundle(AdMobAdapter.class, extras);
+      }
     }
 
     return requestBuilder;
