@@ -108,6 +108,14 @@ RCT_EXPORT_METHOD(clearInterstitial:
     if (request[@"contentUrl"]) builder.contentURL = request[@"contentUrl"];
     if (request[@"requestAgent"]) builder.requestAgent = request[@"requestAgent"];
     if (request[@"keywords"]) builder.keywords = request[@"keywords"];
+    if (request[@"adConsentGranted"]) {
+        bool consentGranted = [[request objectForKey:@"adConsentGranted"] boolValue];
+        if (!consentGranted) {
+            GADExtras *extras = [[GADExtras alloc] init];
+            extras.additionalParameters = @{@"npa": @"1"};
+            [builder registerAdNetworkExtras:extras];
+        }
+    }
 
     if (request[@"testDevices"]) {
         NSArray *devices = request[@"testDevices"];
